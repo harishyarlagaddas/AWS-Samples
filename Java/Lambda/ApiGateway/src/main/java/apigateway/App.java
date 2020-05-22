@@ -18,20 +18,47 @@ import com.google.gson.JsonObject;
  */
 public class App implements RequestHandler<Object, Object> {
 
+    private static final String HTTP_METHOD_KEY = "httpMethod";
+    private static final String HTTP_METHOD_GET = "GET";
+    private static final String HTTP_METHOD_POST = "POST";
+
     public Object handleRequest(final Object input, final Context context) {
-        System.out.print(input);
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
-        headers.put("X-Custom-Header", "application/json");
-        JsonObject result = getGetRequestResponse();
-        return new GatewayResponse(new Gson().toJson(result), headers, 200);
+        Map<String, String> responseHeaders = new HashMap<>();
+        responseHeaders.put("Content-Type", "application/json");
+        responseHeaders.put("X-Custom-Header", "application/json");
+
+        if (!HashMap.class.isInstance(input)) {
+            System.out.println("input is not hashmap. Doesn't know how to process. Input: "+input);
+            return new GatewayResponse("{}", responseHeaders, 500);
+        }
+
+        HashMap<String, String> request = (HashMap)input;
+        System.out.println(request);
+
+        JsonObject result = null;
+        if (request.containsKey(HTTP_METHOD_KEY)) {
+            String method = request.get(HTTP_METHOD_KEY);
+            System.out.println("HttpMethod: "+method);
+            if (method.equalsIgnoreCase("GET")) {
+                result = getGetRequestResponse();
+            } else if (method.equalsIgnoreCase("POST")) {
+                result = getPostRequestResponse();
+            }
+        }
+
+        if (null == result) {
+            System.out.println("Either httpMethod not present of it is not GET or POST.");
+            return new GatewayResponse("{Only GET and POST are supported.}", responseHeaders, 500);
+        }
+
+        return new GatewayResponse(new Gson().toJson(result), responseHeaders, 200);
     }
 
     private JsonObject getGetRequestResponse() {
         JsonObject result = new JsonObject();
         result.addProperty("success",true);
         result.addProperty("method", "GET");
-        result.addProperty("message", "Welcome to API Gateway and lambda integration - GET /hello");
+        result.addProperty("message", "Welcome to API Gateway and lambda integration - GET on /hello");
         result.addProperty("location", getPageContents("https://checkip.amazonaws.com"));
         return result;
     }
@@ -40,8 +67,8 @@ public class App implements RequestHandler<Object, Object> {
         JsonObject result = new JsonObject();
         result.addProperty("success",true);
         result.addProperty("Method", "POST");
-        result.addProperty("message", "Welcome to API Gateway and lambda integration - POST /hello");
-        result.addProperty("Location", getPageContents("https://checkip.amazonaws.com"));
+        result.addProperty("message", "Welcome to API Gateway and lambda integration - POST on /hello");
+        result.addProperty("location", getPageContents("https://checkip.amazonaws.com"));
         return result;
     }
 
