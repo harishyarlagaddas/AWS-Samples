@@ -1,2 +1,2 @@
 # AWS-Samples
-Sample code to use various aws resources (APIGateway, Lambda, Dynamodb e.t.c)
+This repo contains samples for different AWS services. For java related samples please check inside `Java` folder. For python related samples please check inside `Python` folder
