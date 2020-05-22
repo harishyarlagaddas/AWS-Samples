@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="apigateway.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-22T19:49:43" hostname="ARGUEHEARTDEPTH.workdayinternal.com" time="0.831">
+  <properties/>
+  <testcase name="successfulResponse" classname="apigateway.AppTest" time="0.831"/>
+  <system-out><![CDATA[null]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

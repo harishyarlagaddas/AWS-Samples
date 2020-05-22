@@ -1,0 +1,8 @@
+# Ignore gradle files
+Java/.gradle/*
+
+# Ignore idea files
+Java/.idea/*
+
+# Ignore SAM related files
+Java/Lambda/.aws-sam/*

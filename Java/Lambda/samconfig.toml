@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "apigateway-sample"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-o4vtxyfns7wd"
+s3_prefix = "apigateway-sample"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+
